@@ -43,5 +43,5 @@ python3 detection.py train --dataset=/path/to/dataset --weights=coco
 ```
 
 
-This project is based on matterport Mask_RCNN
+This project is based on matterport Mask_RCNN.
 [Mask_RCNN](https://github.com/matterport/Mask_RCNN)

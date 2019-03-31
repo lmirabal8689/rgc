@@ -31,7 +31,7 @@ python3 detection.py splash --weights=/path/to/car.h5 --image=<URL or path to fi
 
 ## Training a model
 This is an example of object annotation. Each object is bound and tagged (tagging is helpful for multiple classes within the same dataset).
-![](/assets/annotation.jpg)
+![](/assets/annotation.JPG)
 
 
 

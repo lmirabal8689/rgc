@@ -37,8 +37,8 @@ python3 detection.py splash --weights=/path/to/<model_name>.h5 --image=<URL or p
 
 
 ## Training a model
-This is an example of object annotation. Each object is bound and tagged (tagging is helpful for multiple classes within the same dataset). [This](http://www.robots.ox.ac.uk/~vgg/software/via/via-1.0.6.html) webpage is what I used to annotate each image.
-![](/assets/annotation.JPG)
+This is an example of object annotation. Each object is bound and tagged (tagging is helpful for multiple classes within the same dataset). The image only shows a few vehicles annotated, this is because the set of images I used have many instances where vehicles did not move. My technique involved only annotating new vehicles per image to avoid duplicate objects. I have not data to suggest this was a good idea but it seems to have worked fine. [This](http://www.robots.ox.ac.uk/~vgg/software/via/via-1.0.6.html) webpage is what I used to annotate each image.
+![](/assets/annotation.png)
 
 
 To train the model you will need to specify the dataset directory. Additionally, it must contain both a "val" and "train" directory with your images and the JSON file containing the annotation data.

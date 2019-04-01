@@ -21,7 +21,7 @@ Mask_RCNN has a whole list of dependencies that can be found in requirements.txt
 sudo apt-get install -r requirements.txt
 ``` 
 
-In addition to these requirements, you will need the pretrained model that detects vehicles for this specific purpose. It can be downloaded [here](https://laurencemirabal.com:4444/index.php/s/sB9iCe9S53APyH5). The model was created from pre-trained coco weights. It trained for 15 epocs with 50 test images and 30 validation images each containing > 10 objects.
+In addition to these requirements, you will need the pretrained model that detects vehicles for this specific purpose. It can be downloaded [here](https://laurencemirabal.com:4444/index.php/s/sB9iCe9S53APyH5). The model was created from pre-trained coco weights. It trained for 15 epocs with about 50 test images and 30 validation images each containing < 10 objects.
 
 You can find out more about coco [here](http://cocodataset.org/#home).
 

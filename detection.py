@@ -25,9 +25,9 @@ import json
 import datetime
 import numpy as np
 import skimage.draw
-import cv2
-from mrcnn.visualize import display_instances
-import matplotlib.pyplot as plt
+#import cv2
+#from mrcnn.visualize import display_instances
+#import matplotlib.pyplot as plt
 
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../../")
@@ -54,7 +54,7 @@ class CustomConfig(Config):
     Derives from the base Config class and overrides some values.
     """
     # Give the configuration a recognizable name
-    NAME = "traveling_car"
+    NAME = "vehicle"
 
     # We use a GPU with 12GB memory, which can fit two images.
     # Adjust down if you use a smaller GPU.
@@ -87,7 +87,7 @@ class CustomDataset(utils.Dataset):
         subset: Subset to load: train or val
         """
         # Add classes. We have only one class to add.
-        self.add_class("traveling_car", 1, "traveling_car")
+        self.add_class("vehicle", 1, "vehicle")
 
         # Train or validation dataset?
         assert subset in ["train", "val"]
@@ -132,7 +132,7 @@ class CustomDataset(utils.Dataset):
             height, width = image.shape[:2] 
 
             self.add_image(
-                "traveling_car",  ## for a single class just add the name here
+                "vehicle",  ## for a single class just add the name here
                 image_id=a['filename'],  # use file name as a unique image id
                 path=image_path,
                 width=width, height=height,
@@ -147,7 +147,7 @@ class CustomDataset(utils.Dataset):
         """
         # If not a balloon dataset image, delegate to parent class.
         image_info = self.image_info[image_id]
-        if image_info["source"] != "traveling_car":
+        if image_info["source"] != "vehicle":
             return super(self.__class__, self).load_mask(image_id)
 
         # Convert polygons to a bitmap mask of shape
@@ -167,7 +167,7 @@ class CustomDataset(utils.Dataset):
     def image_reference(self, image_id):
         """Return the path of the image."""
         info = self.image_info[image_id]
-        if info["source"] == "traveling_car":
+        if info["source"] == "vehicle":
             return info["path"]
         else:
             super(self.__class__, self).image_reference(image_id)
@@ -251,13 +251,13 @@ def detect_and_color_splash(model, image_path=None, video_path=None):
         # We only passed in one image to detect, so only grab the first result.
         #res = r[0]
 
-        car_boxes = get_car_boxes(r['rois'], r['class_ids'])
+#        car_boxes = get_car_boxes(r['rois'], r['class_ids'])
         # Loop through each known parking space box
-        for parking_area in zip(car_boxes):
+#        for parking_area in zip(car_boxes):
             # Get the top-left and bottom-right coordinates of the parking area
-            y1, x1, y2, x2 = parking_area
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
-            print("Doing rectangles")
+#            y1, x1, y2, x2 = parking_area
+#            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
+#            print("Doing rectangles")
 
 
 

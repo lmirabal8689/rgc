@@ -37,7 +37,7 @@ python3 detection.py splash --weights=/path/to/<model_name>.h5 --image=<URL or p
 
 
 ## Training a model
-This is an example of object annotation. Each object is bound and tagged (tagging is helpful for multiple classes within the same dataset). [This](http://www.robots.ox.ac.uk/~vgg/software/via/via-1.0.6.html) is what I used to annotate each image.
+This is an example of object annotation. Each object is bound and tagged (tagging is helpful for multiple classes within the same dataset). [This](http://www.robots.ox.ac.uk/~vgg/software/via/via-1.0.6.html) webpage is what I used to annotate each image.
 ![](/assets/annotation.JPG)
 
 

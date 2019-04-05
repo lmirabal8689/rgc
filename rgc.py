@@ -13,7 +13,7 @@ import numpy as np
 import mrcnn.config
 import mrcnn.utils
 from mrcnn.model import MaskRCNN
-import mysql.connector
+#import mysql.connector
 #from mysql.connector import errorcode
 import skimage.draw
 import requests
@@ -51,8 +51,8 @@ class MaskRCNNConfig(mrcnn.config.Config):
     NAME = "coco_pretrained_model_config"
     IMAGES_PER_GPU = 1
     GPU_COUNT = 1
-    NUM_CLASSES = 1 + 80  # COCO dataset has 80 classes + one background class
-    DETECTION_MIN_CONFIDENCE = 0.6
+    NUM_CLASSES = 1 + 1  # COCO dataset has 80 classes + one background class
+    DETECTION_MIN_CONFIDENCE = 0.9
 
 
 def get_car_boxes(boxes, class_ids):
@@ -63,7 +63,7 @@ def get_car_boxes(boxes, class_ids):
   car_boxes = []
   for i, box in enumerate(boxes):
       # If the detected object isn't a car/bus/truck, skip it
-      if class_ids[i] in [3, 8, 6]:
+      if class_ids[i] in [1, 2]:
           car_boxes.append(box)
 
   return np.array(car_boxes)
@@ -72,7 +72,7 @@ def get_car_boxes(boxes, class_ids):
 # Download the pretrained weights
 CURRENT_DIR = Path(".")
 MODEL_DIR = os.path.join(CURRENT_DIR, "logs")
-MODEL_PATH = os.path.join(CURRENT_DIR, "mask_rcnn_coco.h5")
+MODEL_PATH = os.path.join(CURRENT_DIR, "car.h5")
 
 if not os.path.exists(MODEL_PATH):
   mrcnn.utils.download_trained_weights(MODEL_PATH)
@@ -93,9 +93,9 @@ page = requests.get(url2)
 webpage = html.fromstring(page.content)
 links = webpage.xpath('.//a/@href')
 
-for x in links:
-  if x[-4:] == '.jpg':
-    image_link = url2+x
+for x in range(200,210):
+  if links[x][-4:] == '.jpg':
+    image_link = url2+links[x]
     print(image_link)
     image_copy = skimage.io.imread(image_link)
     # Detect vehicles and draw bounding boxes
@@ -114,7 +114,7 @@ for x in links:
     cv2.imwrite(file_name, output_img)
 
     output_data = (d, len(car_boxes), file_name)
-    print(x)
+    print(len(car_boxes)-1)
 
 
 

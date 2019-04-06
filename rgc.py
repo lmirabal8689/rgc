@@ -13,33 +13,14 @@ import numpy as np
 import mrcnn.config
 import mrcnn.utils
 from mrcnn.model import MaskRCNN
-#import mysql.connector
-#from mysql.connector import errorcode
+import MySQLdb as mariadb
+from mysql.connector import errorcode
 import skimage.draw
 import requests
 from lxml import html
 
-#DB_NAME = 'appdb'
-#TABLES = {}
-#TABLES['data'] = (
-#    "CREATE TABLE `data` ("
-#    "  `id` int(11) NOT NULL AUTO_INCREMENT,"
-#    "  `date` datetime NOT NULL,"
-#    "  `vehicles` smallint NOT NULL,"
-#    "  `filename` varchar(512) NOT NULL,"
-#    "  PRIMARY KEY (`id`)"
-#    ") ENGINE=InnoDB")
-
-
-#FFMPEG_BIN = '/usr/bin/ffmpeg'
-#RTSP_STREAM = "https://590804fbbbc47.streamlock.net:444/ruidosowebcorp2/ruidosowebcorp2.stream/playlist.m3u8"
-
-#COMMAND = [ FFMPEG_BIN,
-#            '-loglevel', 'panic',
-#            '-i', RTSP_STREAM,
-#            '-f', 'image2pipe',
-#            '-pix_fmt', 'rgb24',
-#            '-vcodec', 'rawvideo', '-']
+mariadb_connection = mariadb.connect(user='laurence', password='password', host='192.168.1.90', database='appdb')
+cursor = mariadb_connection.cursor()
 
 VWIDTH = 800
 VHEIGHT = 450
@@ -68,7 +49,6 @@ def get_car_boxes(boxes, class_ids):
 
   return np.array(car_boxes)
 
-
 # Download the pretrained weights
 CURRENT_DIR = Path(".")
 MODEL_DIR = os.path.join(CURRENT_DIR, "logs")
@@ -81,41 +61,71 @@ if not os.path.exists(MODEL_PATH):
 model = MaskRCNN(mode="inference", model_dir=MODEL_DIR, config=MaskRCNNConfig())
 model.load_weights(MODEL_PATH, by_name=True)
 
-# Grab an image from the RTSP stream
-#pipe = sp.Popen(COMMAND, stdin = sp.PIPE, stdout = sp.PIPE)
-#raw_image = pipe.stdout.read(VWIDTH*VHEIGHT*3) # = 1 frame
-#image =  np.frombuffer(raw_image, dtype='uint8').reshape((VHEIGHT,VWIDTH,3))
-
 url2 = 'https://live1.brownrice.com/cam-images/timelapse/ruidosowebcorp2/week-2019-12/'
-
 
 page = requests.get(url2)
 webpage = html.fromstring(page.content)
 links = webpage.xpath('.//a/@href')
 
-for x in range(200,210):
+for x in range(400,450):
   if links[x][-4:] == '.jpg':
     image_link = url2+links[x]
     print(image_link)
     image_copy = skimage.io.imread(image_link)
+
+    cv2.imwrite("temp.png", image_copy)
+    image_cropped = cv2.imread("temp.png")
+
+    pts = np.array([[170,270],[350,450],[785,415],[275,260]])
+    rect = cv2.boundingRect(pts)
+    x,y,w,h = rect
+    croped = image_cropped[y:y+h, x:x+w].copy()
+    ## (2) make mask
+    pts = pts - pts.min(axis=0)
+    mask = np.zeros(croped.shape[:2], np.uint8)
+    cv2.drawContours(mask, [pts], -1, (255, 255, 255), -1, cv2.LINE_AA)
+    ## (3) do bit-op
+    new_image_cropped = cv2.bitwise_and(croped, croped, mask=mask)
+
     # Detect vehicles and draw bounding boxes
-    results = model.detect([image_copy], verbose=0)
+    results = model.detect([new_image_cropped], verbose=0)
     result = results[0]
     car_boxes = get_car_boxes(result['rois'], result['class_ids'])
 
     for box in car_boxes:
       y1, x1, y2, x2 = box
-      cv2.rectangle(image_copy, (x1, y1), (x2, y2), (0,255,0), 2)
+      cv2.rectangle(image_cropped, (x1+170, y1+260), (x2+170, y2+260), (0,255,0), 2)
 
     # Save file to disk
     d = dt.datetime.fromtimestamp(tm.time())
-    output_img = cv2.cvtColor(image_copy, cv2.COLOR_RGB2BGR)
+    output_img = cv2.cvtColor(image_cropped, cv2.COLOR_RGB2BGR)
+    
     file_name = "output_{}.png".format(d.strftime('%Y%m%d%H%M%S'))
     cv2.imwrite(file_name, output_img)
 
     output_data = (d, len(car_boxes), file_name)
-    print(len(car_boxes)-1)
+
+#    try:
+#      add_record = ("INSERT INTO data "
+#                        "(date, vehicles, filename) "
+#                        "VALUES (%s, %s, %s)")
+#      cursor.execute(add_record, output_data)
+#      mariadb_connection.commit()
+
+#    except mysql.connector.Error as err:
+#        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+#            print("User name or password was incorrect\n")
+#        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+#            print("Database does not exist\n")
+#        else:
+#            print(err)
+    #finally:
+    #    print("Closing database connection")
+    #    if(mariadb_connection is not None):
+    #        mariadb_connection.close()
+        
 
 
 
 
+mariadb_connection.close()

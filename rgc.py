@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 
+# ICT-435 Senior project
+# Written by Laurence Mirabal and Jonahlyn Gilstrap
+# To run:
+# python rgc.py -h for help
+# python rgy.py -i <input file name or url>
+
 import logging
 logging.getLogger('tensorflow').disabled = True
 
 import os
 from pathlib import Path
-import subprocess as sp
-import datetime as dt
-import time as tm
 import cv2
 import numpy as np
 import mrcnn.config
@@ -15,8 +18,6 @@ import mrcnn.utils
 from mrcnn.model import MaskRCNN
 import MySQLdb as mariadb
 import skimage.draw
-import requests
-from lxml import html
 import sys
 import getopt
 import configparser
@@ -117,7 +118,6 @@ def start_detection(input_image, output_directory):
 
   # Copy the mask to a new image in memory.
   new_image_cropped = cv2.bitwise_and(croped, croped, mask=mask)
-  cv2.imwrite("croppedImagee.png", new_image_cropped)
 
   # Detect vehicles on cropped image.
   print("*Detecting vehicles.")

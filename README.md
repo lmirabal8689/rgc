@@ -38,7 +38,7 @@ python3 rgc.py -i <image url or directory>
 
 
 ## How it works
-First an image is read and then a hard coded list of points is used to capture the road and crop that selection to a new image. This isolates the area we are interested in and ignores the parked cars. The area within the blue polygon is the area we want to detect vehicles. This also gives us a smaller image to work with. The detection runs and gets a list of bounding boxes for the roi's which is then used to draw onto the original image. The image is saved onto the /ver/www/images/ directory and an entry is created in the database to reference the file and total vehicles along with a timestamp.
+First an image is read and then a hard coded list of points is used to capture the road and crop that selection to a new image. This isolates the area we are interested in and ignores the parked cars. The area within the blue polygon is the area we want to detect vehicles. This also gives us a smaller image to work with. The detection runs and gets a list of bounding boxes for the roi's which is then used to draw onto the original image. The image is saved onto the /var/www/images/ directory and an entry is created in the database to reference the file and total vehicles along with a timestamp.
 
 ![](/assets/cropped_image.png)
 ![](/assets/final_image.png)

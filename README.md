@@ -1,5 +1,6 @@
 # Traffic Detection
 [Project link](http://rgc.nmsu.edu/)
+![](/assets/dashboard.png)
 [Dashboard webapp by Jonahlyn](https://github.com/jonahlyn/dashboard)
 
 ## Getting Started

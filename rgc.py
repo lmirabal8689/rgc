@@ -38,7 +38,7 @@ class MaskRCNNConfig(mrcnn.config.Config):
   # COCO dataset has 80 classes + one background class.
   NUM_CLASSES = 1 + 1
   # The detection confidence can be adjusted for easier detection.
-  DETECTION_MIN_CONFIDENCE = 0.9
+  DETECTION_MIN_CONFIDENCE = 0.6
 
 
 def insert_data(output_data):
@@ -134,7 +134,8 @@ def start_detection(input_image, output_directory):
   for box, score in zip(car_boxes, car_scores):
     y1, x1, y2, x2 = box
     cv2.rectangle(image_cropped, (x1+145, y1+240), (x2+145, y2+240), (0,255,0), 2)
-    cv2.putText(image_cropped,str(score)[:5],(x1+145,y1+240), font, .6, (255,0,0), 1, cv2.LINE_AA)
+    cv2.rectangle(image_cropped, (x1+145,y1+240), (x1+200,y1+225), (255,0,0), -1)
+    cv2.putText(image_cropped,str(score)[:5],(x1+145,y1+240), font, .6, (255,255,255), 1, cv2.LINE_AA)
 
 
   #for score in car_scores:

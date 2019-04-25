@@ -19,7 +19,7 @@ sudo apt-get update && sudo apt-get -y install python3.6 python3-pip
 git clone https://github.com/lmirabal8689/rgc.git
 ```
 
-Mask_RCNN has a whole list of dependencies that can be found in requirements.txt
+Mask_RCNN has a whole list of dependencies that can be found in requirements.txt. There are also a few added for this project.
 ```
 sudo apt-get install -r requirements.txt
 ``` 

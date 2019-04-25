@@ -144,7 +144,7 @@ def start_detection(input_image, output_directory):
   output_img = cv2.cvtColor(image_cropped, cv2.COLOR_RGB2BGR)
   
   # Generate the file name based on its name. (Should be a datetime.extension)
-  file_name = "output_" + input_image[-20:-4] + ".png"
+  file_name = output_directory + "output_" + input_image[-20:-4] + ".png"
 
   # Parse the file name (datetime) into a usable date tim.
   image_time_stamp = input_image[-20:-4]

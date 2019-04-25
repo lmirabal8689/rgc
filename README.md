@@ -19,10 +19,21 @@ sudo apt-get update && sudo apt-get -y install python3.6 python3-pip
 git clone https://github.com/lmirabal8689/rgc.git
 ```
 
+A MySQL library will need to be installed for inserting into the mariaDB.
+```
+apt-get install python3-dev libmysqlclient-dev
+```
+
+Some Ubuntu installs had an issue with Open CV errors similar to: "ImportError: libSM.so.6: cannot open shared object file: No such file or directory". This can be fixed with the following command. (Maybe just install this before you start but definetly if you get errors)
+```
+apt-get install libsm6 libxrender1 libfontconfig1
+```
+
 Mask_RCNN has a whole list of dependencies that can be found in requirements.txt. There are also a few added for this project.
 ```
 sudo apt-get install -r requirements.txt
 ``` 
+
 
 In addition to these requirements, you will need the pretrained model that detects vehicles for this specific purpose. It can be downloaded [here](https://laurencemirabal.com:4444/index.php/s/sB9iCe9S53APyH5). The model was created from pre-trained coco weights. It trained for 15 epochs with about 50 test images and 30 validation images each containing < 10 objects.
 

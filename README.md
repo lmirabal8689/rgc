@@ -31,7 +31,7 @@ apt-get install libsm6 libxrender1 libfontconfig1
 
 Mask_RCNN has a whole list of dependencies that can be found in requirements.txt. There are also a few added for this project.
 ```
-sudo apt-get install -r requirements.txt
+pip3 install -r requirements.txt
 ``` 
 
 

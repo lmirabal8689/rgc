@@ -11,5 +11,5 @@ h5py
 imgaug
 IPython[all]
 mysqlclient
-html
+HTMLParser
 requests

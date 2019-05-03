@@ -134,8 +134,8 @@ def start_detection(input_image, output_directory):
   for box, score in zip(car_boxes, car_scores):
     y1, x1, y2, x2 = box
     cv2.rectangle(image_cropped, (x1+145, y1+240), (x2+145, y2+240), (0,255,0), 2)
-    cv2.rectangle(image_cropped, (x1+145,y1+240), (x1+200,y1+225), (255,0,0), -1)
     # Uncomment the below line for vehicle score
+    #cv2.rectangle(image_cropped, (x1+145,y1+240), (x1+200,y1+225), (255,0,0), -1)
     #cv2.putText(image_cropped,str(score)[:5],(x1+145,y1+240), font, .6, (255,255,255), 1, cv2.LINE_AA)
 
 
@@ -190,7 +190,7 @@ def main(argv):
     sys.exit()
   
   if output_directory is None:
-    output_directory = "var/www/images/"
+    output_directory = "/var/www/images/"
 
   print ('Input file -> ', input_image)
   print ('Output directory -> ', output_directory)

@@ -155,8 +155,8 @@ def start_detection(input_image, output_directory):
       for box, score in zip(car_boxes, car_scores):
         y1, x1, y2, x2 = box
         cv2.rectangle(image_cropped, (x1+145, y1+240), (x2+145, y2+240), (0,255,0), 2)
-        cv2.rectangle(image_cropped, (x1+145,y1+240), (x1+200,y1+225), (255,0,0), -1)
         # Uncomment this line for detection score
+        #cv2.rectangle(image_cropped, (x1+145,y1+240), (x1+200,y1+225), (255,0,0), -1)
         #cv2.putText(image_cropped,str(score)[:5],(x1+145,y1+240), font, .6, (255,255,255), 1, cv2.LINE_AA)
 
       # Save file to disk
@@ -168,7 +168,7 @@ def start_detection(input_image, output_directory):
       file_name = output_directory + image_database_name
 
       # Parse the file name (datetime) into a usable date tim.
-      image_time_stamp = input_image[-20:-4]
+      image_time_stamp = link[-20:-4]
       image_time_stamp = image_time_stamp[:-3] + ':' + image_time_stamp[14:]
       image_time_stamp = image_time_stamp[:-6] + ' ' + image_time_stamp[11:]
       image_time_stamp = image_time_stamp + ':00'
@@ -210,7 +210,7 @@ def main(argv):
     sys.exit()
   
   if output_directory is None:
-    output_directory = "var/www/images/"
+    output_directory = "/var/www/images/"
 
   print ('Input file -> ', input_image)
   print ('Output directory -> ', output_directory)

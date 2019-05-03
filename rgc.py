@@ -190,7 +190,7 @@ def main(argv):
     sys.exit()
   
   if output_directory is None:
-    output_directory = "/var/www/images/"
+    output_directory = "var/www/images/"
 
   print ('Input file -> ', input_image)
   print ('Output directory -> ', output_directory)

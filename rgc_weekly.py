@@ -164,7 +164,7 @@ def start_detection(input_image, output_directory):
       output_img = cv2.cvtColor(image_cropped, cv2.COLOR_RGB2BGR)
     
       # Generate the file name based on its name. (Should be a datetime.extension)
-      image_database_name = "output_" + input_image[-20:-4] + ".png"
+      image_database_name = "output_" + link[-20:-4] + ".png"
       file_name = output_directory + image_database_name
 
       # Parse the file name (datetime) into a usable date tim.
@@ -172,7 +172,7 @@ def start_detection(input_image, output_directory):
       image_time_stamp = image_time_stamp[:-3] + ':' + image_time_stamp[14:]
       image_time_stamp = image_time_stamp[:-6] + ' ' + image_time_stamp[11:]
       image_time_stamp = image_time_stamp + ':00'
-
+      print(image_database_name)
       # Write the image to file in the output directory /var/www/images/
       print("*Writing image to file.")
       cv2.imwrite(file_name, output_img)
@@ -210,7 +210,7 @@ def main(argv):
     sys.exit()
   
   if output_directory is None:
-    output_directory = "/var/www/images/"
+    output_directory = "var/www/images/"
 
   print ('Input file -> ', input_image)
   print ('Output directory -> ', output_directory)

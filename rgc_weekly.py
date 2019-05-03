@@ -156,14 +156,16 @@ def start_detection(input_image, output_directory):
         y1, x1, y2, x2 = box
         cv2.rectangle(image_cropped, (x1+145, y1+240), (x2+145, y2+240), (0,255,0), 2)
         cv2.rectangle(image_cropped, (x1+145,y1+240), (x1+200,y1+225), (255,0,0), -1)
-        cv2.putText(image_cropped,str(score)[:5],(x1+145,y1+240), font, .6, (255,255,255), 1, cv2.LINE_AA)
+        # Uncomment this line for detection score
+        #cv2.putText(image_cropped,str(score)[:5],(x1+145,y1+240), font, .6, (255,255,255), 1, cv2.LINE_AA)
 
       # Save file to disk
       #d = dt.datetime.fromtimestamp(tm.time())
       output_img = cv2.cvtColor(image_cropped, cv2.COLOR_RGB2BGR)
     
       # Generate the file name based on its name. (Should be a datetime.extension)
-      file_name = output_directory + "output_" + input_image[-20:-4] + ".png"
+      image_database_name = "output_" + input_image[-20:-4] + ".png"
+      file_name = output_directory + image_database_name
 
       # Parse the file name (datetime) into a usable date tim.
       image_time_stamp = input_image[-20:-4]
@@ -175,7 +177,7 @@ def start_detection(input_image, output_directory):
       print("*Writing image to file.")
       cv2.imwrite(file_name, output_img)
 
-      insert_data((image_time_stamp, len(car_boxes), file_name))
+      insert_data((image_time_stamp, len(car_boxes), image_database_name))
     else:
       print("Skipped link %d/%d" % (position, total))
 
